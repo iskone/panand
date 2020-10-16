@@ -1,6 +1,8 @@
 package lib
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 type Code struct {
 	CODE  string `json:"CODE"`
@@ -12,9 +14,8 @@ type OauthErr struct {
 	ErrorDescription string `json:"error_description"`
 }
 type AccessToken struct {
-	RefreshToken string `json:"refresh_token"`
-	Token
-	OauthErr
+	RToken string `json:"refresh_token"`
+	RefreshToken
 }
 type RefreshToken struct {
 	Token
@@ -34,4 +35,40 @@ type Result struct {
 	ResultCode  string   `xml:"resultCode,attr"`
 	Desc        string   `xml:"desc,attr"`
 	RetCode     string   `xml:"retCode"`
+}
+type Err struct {
+	Code string
+	Desc string
+}
+func (e Err) Error() string {
+	msg:= "code: "+e.Code
+	if e.Desc!="" {
+		msg += ",desc: "+e.Desc
+
+	}
+	return msg
+}
+
+func (r Result) HasErr() error {
+	e:=Err{
+		Desc: r.Desc,
+	}
+	if r.RetCode!="0" &&r.RetCode!="" {
+		e.Code = r.RetCode
+		return e
+	}
+	if r.ResultCode !="0" &&r.ResultCode!="" {
+		e.Code = r.ResultCode
+		return e
+	}
+	return nil
+}
+func (r OauthErr) HasErr() error {
+	if r.Error=="" {
+		return nil
+	}
+	return Err{
+		Code: r.Error,
+		Desc: r.ErrorDescription,
+	}
 }

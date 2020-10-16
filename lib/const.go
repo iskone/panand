@@ -6,4 +6,6 @@ const (
 	PanApi = "https://ose.caiyun.feixin.10086.cn"
 	GetTokenApi = "/oauthApp/OAuth2/getToken"
 	RefreshTokenApi = "/oauthApp/OAuth2/refreshToken"
+	UserApi = "/richlifeApp/devapp/IUser"
 )
+const ThirdPartyAnonymousAccount = "thirdparty_anonymous_account"

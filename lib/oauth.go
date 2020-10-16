@@ -79,6 +79,9 @@ func (c client) RefreshToken(rtoken string) (RefreshToken, error) {
 	if e = json.Unmarshal(b, &rt); e != nil {
 		return rt, e
 	}
+	if e = rt.HasErr(); e != nil {
+		return rt, e
+	}
 	return rt, nil
 }
 func (c *client) UseWap(b bool) {
