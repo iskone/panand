@@ -2,7 +2,8 @@ package lib
 
 import (
 	"encoding/xml"
-	"net/http"
+	ixml "github.com/iskone/itools/xml"
+"net/http"
 )
 
 type GetDiskInfo struct {
@@ -17,7 +18,7 @@ type DiskInfo struct {
 
 func (p Panand) GetDiskInfo() (DiskInfo, error) {
 
-	buf, _ := encodeXml(GetDiskInfo{
+	buf, _ := ixml.EncodeXml(GetDiskInfo{
 		MSISDN: "thirdparty_anonymous_account",
 	})
 	type ResStruct struct {
@@ -34,7 +35,7 @@ func (p Panand) GetDiskInfo() (DiskInfo, error) {
 		return DiskInfo{}, e
 	}
 	var resData ResStruct
-	if e = decodeXml(res.Body, &resData); e != nil {
+	if e = ixml.DecodeXml(res.Body, &resData); e != nil {
 		return DiskInfo{}, e
 	}
 	if e = resData.HasErr(); e != nil {

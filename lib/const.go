@@ -9,3 +9,55 @@ const (
 	UserApi = "/richlifeApp/devapp/IUser"
 )
 const ThirdPartyAnonymousAccount = "thirdparty_anonymous_account"
+const(
+	ContentTypeOther contentType = iota
+	ContentTypeImg
+	ContentTypeAudio
+	ContentTypeVideo
+	ContentTypeMessage
+	ContentTypeWord
+	ContentTypeShare
+	ContentTypeExel
+	ContentTypePpt
+)
+const(
+	ContentOriginPCPush contentOrigin = iota
+	ContentOriginPCClient
+	ContentOriginMobile
+	ContentOriginShare
+	ContentOrigin17Play
+	ContentOriginSuperEmail
+	ContentOriginHome
+	ContentOriginMessage
+	ContentOriginPhoneEmail
+	ContentOriginWeb
+	ContentOriginCommunity
+	ContentOriginOther contentOrigin = 99
+)
+const (
+	SafeStateDefault safeState = iota
+	SafeStateSafe
+	SafeStateVirus
+	SafeStateCheckIng
+	SafeStateUnknown
+)
+const (
+	TransferStateIng transferState = iota
+	TransferStateFail
+	TransferStateExamine
+	TransferStateNormal
+	TransferStateShield
+)
+const (
+	ETagOprTypeModify ETagOprType = iota
+	ETagOprTypeAdded
+	ETagOprTypeRemove
+
+)
+const (
+	AuditDefault auditResult = iota
+	AuditPass
+	AuditFail
+	AuditManual
+	AuditExamine
+)
