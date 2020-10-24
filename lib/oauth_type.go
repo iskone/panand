@@ -1,4 +1,5 @@
 package lib
+
 type Code struct {
 	CODE  string `json:"CODE"`
 	State string `json:"state"`
@@ -21,8 +22,9 @@ type Token struct {
 	TokenType   string `json:"token_type"`
 	ExpiresIn   int    `json:"expires_in"`
 }
+
 func (r OauthErr) HasErr() error {
-	if r.Error=="" {
+	if r.Error == "" {
 		return nil
 	}
 	return Err{

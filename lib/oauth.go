@@ -3,7 +3,6 @@ package lib
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
@@ -52,11 +51,8 @@ func (c client) AccessToken(code string) (AccessToken, error) {
 	if e != nil {
 		return at, e
 	}
-	b, e := ioutil.ReadAll(res.Body)
-	if e != nil {
-		return at, e
-	}
-	if e = json.Unmarshal(b, &at); e != nil {
+
+	if e = json.NewDecoder(res.Body).Decode(&at); e != nil {
 		return at, e
 	}
 	return at, nil
@@ -72,11 +68,7 @@ func (c client) RefreshToken(rtoken string) (RefreshToken, error) {
 	if e != nil {
 		return rt, e
 	}
-	b, e := ioutil.ReadAll(res.Body)
-	if e != nil {
-		return rt, e
-	}
-	if e = json.Unmarshal(b, &rt); e != nil {
+	if e = json.NewDecoder(res.Body).Decode(&rt); e != nil {
 		return rt, e
 	}
 	if e = rt.HasErr(); e != nil {
@@ -90,7 +82,7 @@ func (c *client) UseWap(b bool) {
 func (c *client) Name() string {
 	return c.AppName
 }
-func NewClientOauth(name string,id string,key string, redirectUri string) Auth {
+func NewClientOauth(name string, id string, key string, redirectUri string) Auth {
 	return &client{
 		AppName:     name,
 		ClientId:    id,

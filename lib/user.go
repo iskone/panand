@@ -3,17 +3,13 @@ package lib
 import (
 	"encoding/xml"
 	ixml "github.com/iskone/itools/xml"
-"net/http"
+	"net/http"
 )
 
 type GetDiskInfo struct {
 	XMLName xml.Name `xml:"getDiskInfo"`
 	Text    string   `xml:",chardata"`
 	MSISDN  string   `xml:"MSISDN"`
-}
-type DiskInfo struct {
-	FreeDiskSize int `xml:"freeDiskSize"`
-	DiskSize     int `xml:"diskSize"`
 }
 
 func (p Panand) GetDiskInfo() (DiskInfo, error) {
