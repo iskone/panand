@@ -78,7 +78,7 @@ func (p Panand) DownloadRequest(request DownloadRequest) ([]DownloadUrl, error) 
 		MSISDN  string   `xml:"MSISDN"`
 		DownloadRequest
 	}
-	t.AppName = p.auth.Name()
+	t.AppName = p.Auth.Name()
 	t.MSISDN = ThirdPartyAnonymousAccount
 	t.DownloadRequest = request
 	b, err := ixml.EncodeXml(t)
@@ -114,7 +114,6 @@ func (p Panand) DownloadRequest(request DownloadRequest) ([]DownloadUrl, error) 
 		return nil, err
 	}
 	var r []DownloadUrl
-	fmt.Println(readData.String)
 	if !t.Operation.bool {
 		r = append(r, DownloadUrl{
 			ID:  t.ContentID,

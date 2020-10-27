@@ -3,7 +3,6 @@ package lib
 import (
 	"encoding/xml"
 	"errors"
-	"fmt"
 	"github.com/iskone/itools"
 	ixml "github.com/iskone/itools/xml"
 	"net/http"
@@ -35,7 +34,6 @@ func (p Panand) GetDisk(gdr GetDiskReq) (*GetDiskResult, error) {
 		GetDiskReq: gdr,
 	}
 	b, err := ixml.EncodeXml(rhr)
-	fmt.Println(b.String())
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +56,6 @@ func (p Panand) GetDisk(gdr GetDiskReq) (*GetDiskResult, error) {
 	if err = gd.HasErr(); err != nil {
 		return nil, err
 	}
-	fmt.Println(gd.GetDiskResult)
 	r := itools.AutoSetLength(gd.GetDiskResult, "autoLen").(GetDiskResult)
 	return &r, err
 }
@@ -108,7 +105,7 @@ func (p Panand) CreatCatalogExt(ccx CreateCatalogExtReq) (*CatalogInfo, error) {
 	return &getres.CatalogInfo, getres.HasErr()
 }
 
-func (p Panand) CopyContentCatalog(newCatalogID string, contentInfoList, catalogInfoList []string) ([]string, error) {
+func (p *Panand) CopyContentCatalog(newCatalogID string, contentInfoList, catalogInfoList []string) ([]string, error) {
 	if len(catalogInfoList) > 50 {
 		return nil, errors.New("catalogInfoList > 50")
 	}
@@ -166,7 +163,7 @@ func (p Panand) CopyContentCatalog(newCatalogID string, contentInfoList, catalog
 
 }
 
-func (p Panand) UpdateCatalogInfo(catalogID, catalogName string, ctype catalogType, path string) (string, error) {
+func (p *Panand) UpdateCatalogInfo(catalogID, catalogName string, ctype catalogType, path string) (string, error) {
 	var reqData struct {
 		XMLName     xml.Name    `xml:"updateCatalogInfo"`
 		MSISDN      string      `xml:"MSISDN"`

@@ -7,20 +7,20 @@ import (
 )
 
 type Panand struct {
-	auth Auth
-	AccessToken
+	Auth Auth
+	AT *AccessToken
 }
 
-func (p Panand) addHeader(r *http.Request) error {
-	if p.ExpiresIn <= int(time.Now().Unix()) {
-		if rt, e := p.auth.RefreshToken(p.RToken); e != nil {
+func (p *Panand) addHeader(r *http.Request) error {
+	if p.AT.ExpiresIn < int(time.Now().Unix()) {
+		if rt, e := p.Auth.RefreshToken(p.AT.RToken); e != nil {
 			return e
 		} else {
-			p.Token = rt.Token
+			p.AT.Token = rt.Token
 		}
 	}
-	fmt.Println(p.AccessToken.AccessToken)
-	r.Header.Set("Authorization", "Bearer "+p.AccessToken.AccessToken)
+	fmt.Println(p.AT.AccessToken)
+	r.Header.Set("Authorization", "Bearer "+p.AT.AccessToken)
 	r.Header.Set("Content-Type", "application/xml")
 	return nil
 }

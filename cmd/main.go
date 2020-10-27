@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"encoding/json"
@@ -15,8 +15,9 @@ type AppInfo struct {
 }
 
 type Config struct {
-	App  AppInfo         `json:"app"`
-	User lib.AccessToken `json:"user"`
+	App  AppInfo `json:"app"`
+	Home string
+	User *lib.AccessToken `json:"user"`
 }
 type Server struct {
 	PanAnd  *lib.Panand
@@ -47,6 +48,20 @@ func SaveConfig(c Config) error {
 	return json.NewEncoder(f).Encode(c)
 }
 func main() {
-	var s Server
-	s.app = iris.Default()
+	c, e := LoadConfig()
+	if e != nil {
+		panic(e)
+	}
+
+	authd := lib.NewClientOauth(c.App.Name, c.App.Id, c.App.Key, c.App.RedirectUri)
+	var s = &Server{
+		PanAnd: &lib.Panand{
+			authd,
+			c.User,
+		},
+		isLogin: false,
+		app:     nil,
+	}
+	newHttp(s)
+	_ = SaveConfig(*c)
 }
